@@ -33,7 +33,9 @@ import rx.Observable;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -104,6 +106,7 @@ public abstract class BaseDataLoadingTest {
 
         for (int position = 0; position < TestData.REPOS.size(); position++) {
             Repo repo = TestData.REPOS.get(position);
+            onView(withId(android.R.id.list)).perform(scrollToPosition(position));
             onView(withText(repo.name)).check(matches(isDisplayed()));
             onView(withText(repo.description)).check(matches(isDisplayed()));
         }
