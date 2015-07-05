@@ -1,0 +1,66 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "me.egorand.dagger_2_testing"
+        minSdkVersion 16
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
+}
+
+final APP_COMPAT_VERSION = '22.2.0'
+final DAGGER_VERSION = '2.0.1'
+final MOCKITO_VERSION = '1.10.19'
+final ESPRESSO_VERSION = '2.2'
+final ESPRESSO_RUNNER_VERSION = '0.3'
+final DEXMAKER_VERSION = '1.2'
+
+dependencies {
+    compile "com.android.support:appcompat-v7:${APP_COMPAT_VERSION}"
+    compile "com.android.support:recyclerview-v7:${APP_COMPAT_VERSION}"
+
+    compile "com.google.dagger:dagger:${DAGGER_VERSION}"
+    apt "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'io.reactivex:rxandroid:0.25.0'
+
+    testCompile 'junit:junit:4.12'
+    testCompile "org.mockito:mockito-core:${MOCKITO_VERSION}"
+    testCompile 'com.squareup:fest-android:1.0.8'
+    testCompile 'org.robolectric:robolectric:3.0-rc3'
+
+    androidTestCompile "com.android.support.test:runner:${ESPRESSO_RUNNER_VERSION}"
+    androidTestCompile "com.android.support.test:rules:${ESPRESSO_RUNNER_VERSION}"
+    androidTestCompile "com.android.support.test.espresso:espresso-core:${ESPRESSO_VERSION}"
+    androidTestCompile("com.android.support.test.espresso:espresso-contrib:${ESPRESSO_VERSION}") {
+        exclude module: 'recyclerview-v7'
+    }
+    androidTestCompile "com.google.dexmaker:dexmaker:${DEXMAKER_VERSION}"
+    androidTestCompile "com.google.dexmaker:dexmaker-mockito:${DEXMAKER_VERSION}"
+    androidTestCompile "org.mockito:mockito-core:${MOCKITO_VERSION}"
+    androidTestApt "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
+}
