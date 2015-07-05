@@ -5,5 +5,7 @@ android:
         - tools
         - build-tools-22.0.1
         - android-22
+        - extra-android-m2repository
+        - extra-android-support
 script:
         - ./gradlew clean testDebug connectedAndroidTestDebug
