@@ -24,7 +24,6 @@ import me.egorand.dagger_2_testing.data.ReposDatabaseHelper;
 import me.egorand.dagger_2_testing.data.ReposDiskDatastore;
 import me.egorand.dagger_2_testing.data.ReposMemoryDatastore;
 import me.egorand.dagger_2_testing.di.components.AppComponent;
-import me.egorand.dagger_2_testing.di.qualifiers.AppScope;
 import me.egorand.dagger_2_testing.di.qualifiers.Disk;
 import me.egorand.dagger_2_testing.di.qualifiers.Memory;
 import me.egorand.dagger_2_testing.rest.GithubApiClient;
@@ -54,7 +53,7 @@ public abstract class BaseDataLoadingTest {
             this.app = app;
         }
 
-        @Provides @AppScope public Context provideAppContext() {
+        @Provides @Singleton public Context provideAppContext() {
             return app;
         }
 
@@ -73,8 +72,8 @@ public abstract class BaseDataLoadingTest {
         }
     }
 
-    @Component(modules = TestAppModule.class)
     @Singleton
+    @Component(modules = TestAppModule.class)
     public interface TestAppComponent extends AppComponent {
 
         void inject(MemoryDataLoadingTest test);

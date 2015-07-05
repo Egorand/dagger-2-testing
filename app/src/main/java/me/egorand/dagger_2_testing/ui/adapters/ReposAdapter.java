@@ -1,6 +1,5 @@
 package me.egorand.dagger_2_testing.ui.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +18,8 @@ public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> 
 
     private List<Repo> repos;
 
-    public ReposAdapter(Context context, List<Repo> repos) {
-        this.layoutInflater = LayoutInflater.from(context);
+    public ReposAdapter(LayoutInflater layoutInflater, List<Repo> repos) {
+        this.layoutInflater = layoutInflater;
         this.repos = new ArrayList<>(repos);
     }
 

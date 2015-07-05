@@ -13,12 +13,16 @@ import javax.inject.Inject;
 import me.egorand.dagger_2_testing.App;
 import me.egorand.dagger_2_testing.R;
 import me.egorand.dagger_2_testing.data.ReposLoader;
+import me.egorand.dagger_2_testing.di.components.MainActivityComponent;
+import me.egorand.dagger_2_testing.di.modules.MainActivityModule;
 import me.egorand.dagger_2_testing.ui.adapters.ReposAdapter;
 import rx.Subscription;
 import rx.android.app.AppObservable;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
+
+    private MainActivityComponent mainActivityComponent;
 
     private RecyclerView reposRecyclerView;
     private View progress;
@@ -31,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ((App) getApplication()).appComponent().inject(this);
+        this.mainActivityComponent = ((App) getApplication()).appComponent().plus(new MainActivityModule(this));
+        mainActivityComponent.inject(this);
 
         reposRecyclerView = (RecyclerView) findViewById(android.R.id.list);
         reposRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -47,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(
                         repos -> {
                             progress.setVisibility(View.INVISIBLE);
-                            reposRecyclerView.setAdapter(new ReposAdapter(this, repos));
+                            reposRecyclerView.setAdapter(new ReposAdapter(mainActivityComponent.layoutInflater(), repos));
                         },
                         throwable -> {
                             Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
